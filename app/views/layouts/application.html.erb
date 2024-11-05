@@ -1,52 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Albbano" %></title>
+    <title>ALBBANO</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .number {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px;
-            font-size: 24px;
-            background-color: #4caf50;
-            color: white;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-        }
-    </style>
 
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/assets/img/char_albbano.webp">
+    <link rel="apple-touch-icon" href="/assets/img/char_albbano.webp">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "style", "data-turbo-track": "reload" %>
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <div style="display: inline-block; width:400px">
+        <span style="float: left"><img src="/assets/img/char_albbano.webp" width="100px" style="border-radius: 20%"></span>
+        <h1 style="float: right; margin-right: 20px">TM.알빠노</h1>
+        <p style="float: right">이런들 어떠하리, 저런들 어떠하리..</p>
+      </div>
+    </header>
+    <%= render 'layouts/menu' %>
+
+    <div class="background">
+      <div id="wrap" class="content_wrap background6">
+        <%= yield %>
+      </div>
+    </div>
+    <%= render 'layouts/footer' %>
   </body>
 </html>
