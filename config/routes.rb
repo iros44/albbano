@@ -12,6 +12,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   get "lotto" => "main#index"
-  get "mcp" => "main#mcp"
-  get "mcp_guide" => "main#mcp_guide"
+  get "mcp" => "mcp#index"
+  get "mcp_guide" => "mcp#mcp_guide"
 end
