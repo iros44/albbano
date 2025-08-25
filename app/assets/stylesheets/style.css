@@ -10,14 +10,14 @@ body {
 
 body .background {
     position: relative;
-    height: calc(100% - 280px);
+    height: calc(100% - 250px);
     background-image: url("/assets/img/background6.jpg");
     background-size: 100% 100%;
 }
 
 /* 헤더 스타일 */
 header {
-    height: 130px;
+    height: 100px;
     width: 100%;
     background-color: #333;
     color: #f2f2f2;
@@ -41,6 +41,7 @@ header p {
 /* 네비게이션 */
 nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     background-color: #222;
     padding: 15px 0;
@@ -63,7 +64,7 @@ nav a:hover {
 
 .content_wrap {
     width: 100%;
-    height: calc(100% - 260px);
+    height: calc(100% - 230px);
     margin-bottom: 100px;
 }
 
