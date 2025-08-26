@@ -1,4 +1,4 @@
-class McpController < ActionController::Base
+class McpController < StudyController
   def index
 
   end

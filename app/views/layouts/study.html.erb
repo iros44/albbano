@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ALBBANO</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/assets/img/char_albbano.webp">
+  <link rel="apple-touch-icon" href="/assets/img/char_albbano.webp">
+  <style>
+      @page {
+          size: A4;
+          margin: 2cm;
+      }
+
+      body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background: #fff;
+      }
+
+      .header {
+          text-align: center;
+          border-bottom: 3px solid #f39c12;
+          padding-bottom: 20px;
+          margin-bottom: 30px;
+      }
+
+      /* 네비게이션 */
+      nav {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          background-color: #222;
+          padding: 15px 0;
+          width: 100%;
+          margin: 0;
+      }
+
+      nav a {
+          height: 24px;
+          color: #ccc;
+          text-decoration: none;
+          margin: 0 20px;
+          font-weight: 400;
+          font-size: 1.1em;
+      }
+
+      nav a:hover {
+          color: #4a90e2;
+      }
+
+      h1 {
+          color: #2c3e50;
+          font-size: 2.5em;
+          margin: 0;
+      }
+
+      .subtitle {
+          color: #7f8c8d;
+          font-size: 1.2em;
+          margin-top: 10px;
+      }
+
+      h2 {
+          color: #e67e22;
+          border-left: 4px solid #f39c12;
+          padding-left: 15px;
+          margin-top: 40px;
+      }
+
+      h3 {
+          color: #3498db;
+          margin-top: 30px;
+      }
+
+      .step {
+          background: #ecf0f1;
+          border-radius: 8px;
+          padding: 20px;
+          margin: 20px 0;
+          border-left: 4px solid #3498db;
+      }
+
+      .code-block {
+          background: #2c3e50;
+          color: #ecf0f1;
+          padding: 15px;
+          border-radius: 6px;
+          overflow-x: auto;
+          font-family: 'Consolas', 'Monaco', monospace;
+          margin: 15px 0;
+          white-space: pre-wrap;
+      }
+
+      .warning {
+          background: #fff3cd;
+          border: 1px solid #ffeaa7;
+          border-radius: 6px;
+          padding: 15px;
+          margin: 15px 0;
+      }
+
+      .tip {
+          background: #d1ecf1;
+          border: 1px solid #bee5eb;
+          border-radius: 6px;
+          padding: 15px;
+          margin: 15px 0;
+      }
+
+      .screenshot-placeholder {
+          background: #f8f9fa;
+          border: 2px dashed #dee2e6;
+          border-radius: 8px;
+          padding: 40px;
+          text-align: center;
+          color: #6c757d;
+          margin: 20px 0;
+      }
+
+      .config-example {
+          background: #f8f9fa;
+          border: 1px solid #e9ecef;
+          border-radius: 6px;
+          padding: 15px;
+          margin: 15px 0;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 20px 0;
+      }
+
+      th, td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: left;
+      }
+
+      th {
+          background: #f8f9fa;
+          font-weight: bold;
+      }
+
+      .toc {
+          background: #f8f9fa;
+          border-radius: 8px;
+          padding: 20px;
+          margin: 20px 0;
+      }
+
+      .toc ul {
+          list-style-type: none;
+          padding-left: 0;
+      }
+
+      .toc li {
+          margin: 8px 0;
+          padding-left: 20px;
+      }
+
+      .toc a {
+          text-decoration: none;
+          color: #3498db;
+      }
+
+      .footer {
+          text-align: center;
+          margin-top: 50px;
+          padding-top: 20px;
+          border-top: 1px solid #eee;
+          color: #7f8c8d;
+      }
+  </style>
+</head>
+
+<body>
+<%= render 'layouts/study_menu' %>
+
+<%= yield %>
+
+<%#= render 'layouts/footer' %>
+
+</body>
+
+<script>
+	// PDF 출력을 위한 스타일 조정
+	window.addEventListener('beforeprint', function() {
+		document.body.style.fontSize = '12px';
+	});
+
+	window.addEventListener('afterprint', function() {
+		document.body.style.fontSize = '';
+	});
+</script>
+
+<!-- HTML head에 Prettier 라이브러리 추가 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/standalone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/parser-babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/parser-html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/parser-css.min.js"></script>
+
+<script>
+	function beautifyCodeBlocks() {
+		document.querySelectorAll('.code-block').forEach(block => {
+			const originalCode = block.textContent || block.innerText;
+
+			if (!originalCode.trim()) return;
+
+			try {
+				// 코드 타입 자동 감지 및 포맷팅
+				let formattedCode;
+
+				// HTML 태그가 있으면 HTML로 처리
+				if (originalCode.includes('<') && originalCode.includes('>')) {
+					formattedCode = prettier.format(originalCode, {
+						parser: 'html',
+						plugins: prettierPlugins,
+						tabWidth: 2,
+						useTabs: false,
+						htmlWhitespaceSensitivity: 'css',
+						printWidth: 80
+					});
+				}
+				// CSS 속성이 있으면 CSS로 처리
+				else if (originalCode.includes('{') && originalCode.includes(':') && originalCode.includes(';')) {
+					formattedCode = prettier.format(originalCode, {
+						parser: 'css',
+						plugins: prettierPlugins,
+						tabWidth: 2,
+						useTabs: false,
+						printWidth: 80
+					});
+				}
+				// JSON 형태면 JSON으로 처리
+				else if ((originalCode.trim().startsWith('{') && originalCode.trim().endsWith('}')) ||
+					(originalCode.trim().startsWith('[') && originalCode.trim().endsWith(']'))) {
+					try {
+						const parsed = JSON.parse(originalCode);
+						formattedCode = JSON.stringify(parsed, null, 2);
+					} catch (e) {
+						// JSON 파싱 실패시 JavaScript로 처리
+						formattedCode = prettier.format(originalCode, {
+							parser: 'babel',
+							plugins: prettierPlugins,
+							semi: true,
+							singleQuote: true,
+							tabWidth: 2,
+							useTabs: false,
+							trailingComma: 'es5',
+							printWidth: 80,
+							bracketSpacing: true,
+							arrowParens: 'avoid'
+						});
+					}
+				}
+				// 기본적으로 JavaScript로 처리
+				else {
+					formattedCode = prettier.format(originalCode, {
+						parser: 'babel',
+						plugins: prettierPlugins,
+						semi: true,
+						singleQuote: true,
+						tabWidth: 2,
+						useTabs: false,
+						trailingComma: 'es5',
+						printWidth: 80,
+						bracketSpacing: true,
+						arrowParens: 'avoid'
+					});
+				}
+
+				// 포맷된 코드 적용
+				block.textContent = formattedCode;
+
+			} catch (error) {
+				console.warn('코드 포맷팅 실패:', error);
+				// 포맷팅 실패시 최소한의 기본 정리만 수행
+				block.textContent = originalCode
+					.split('\n')
+					.map(line => line.trim())
+					.filter(line => line.length > 0)
+					.join('\n');
+			}
+		});
+	}
+
+	// 페이지 로드 후 자동 실행
+	document.addEventListener('DOMContentLoaded', beautifyCodeBlocks);
+
+	// 동적으로 코드가 추가될 때를 위한 함수
+	function refreshCodeBlocks() {
+		beautifyCodeBlocks();
+	}
+</script>
+
+</html>
